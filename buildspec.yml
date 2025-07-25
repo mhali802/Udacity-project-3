@@ -28,7 +28,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - docker --version
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com      
-      - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$Code_Buld_Project
+      - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$Code_Buld_Project-3
       - echo "REPOSITORY_URI=$REPOSITORY_URI"
 
   build:
