@@ -1,0 +1,52 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: "us-east-1"  # Replace with your actual region
+    AWS_ACCOUNT_ID: "949829287785"  # Replace with your actual AWS account ID
+    Code_Buld_Project: "Udacity-project"
+    IMAGE_TAG: "latest"
+
+phases:
+  pre_build:
+    commands:
+      - echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
+      - echo Logging in to Docker Hub...
+      - |
+        DOCKERHUB_SECRET=$(aws secretsmanager get-secret-value --secret-id dockerhub/credentials --region $AWS_DEFAULT_REGION --query SecretString --output text)
+        DOCKERHUB_USERNAME=$(echo $DOCKERHUB_SECRET | jq -r .username)
+        DOCKERHUB_PASSWORD=$(echo $DOCKERHUB_SECRET | jq -r .password)
+        echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - |
+        if ! aws ecr describe-repositories --repository-names $Code_Buld_Project --region $AWS_DEFAULT_REGION > /dev/null 2>&1; then
+          echo "ECR repository does not exist. Creating..."
+          aws ecr create-repository --repository-name $Code_Buld_Project --region $AWS_DEFAULT_REGION
+        else
+          echo "ECR repository already exists."
+        fi
+
+      - echo Logging in to Amazon ECR...
+      - docker --version
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com      
+      - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$Code_Buld_Project
+      - echo "REPOSITORY_URI=$REPOSITORY_URI"
+
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
+
+  post_build:
+    commands:
+      - echo Pushing the Docker image to ECR...
+      - echo "Verifying Docker image list before push:"
+      - docker images
+      - docker push $REPOSITORY_URI:$IMAGE_TAG || echo "Push failed"
+      - docker push $REPOSITORY_URI:latest || echo "Push failed"
+      - echo Writing imagedefinitions.json for ECS deployment...
+      - echo "[{\"name\":\"$Code_Buld_Project\",\"imageUri\":\"$REPOSITORY_URI:$IMAGE_TAG\"}]" > imagedefinitions.json
+      
+artifacts:
+  files:
+    - imagedefinitions.json  
