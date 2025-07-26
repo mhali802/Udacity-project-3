@@ -42,7 +42,8 @@ Code Build Image of Application
 
 -- --- --- kubectl apply -f app-service.yml
 
-<img width="867" height="122" alt="image" src="https://github.com/user-attachments/assets/7ce53fc7-8eb1-4cdc-a1b1-570041f3c314" />
+<img width="751" height="447" alt="image" src="https://github.com/user-attachments/assets/260b091f-c543-4fef-830b-df2a69ddb291" />
+
 
 
 
