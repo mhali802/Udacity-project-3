@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram
+  template:
+    metadata:
+      labels:
+        app: udagram
+    spec:
+      containers:
+      - name: udagram-app
+        image: 949829287785.dkr.ecr.us-east-1.amazonaws.com/udacity-project-3:latest
+        ports:
+          - containerPort: 80
+        env:
+          - name: DB_HOST
+            value: postgres
+          - name: DB_NAME
+            value: udagram
+          - name: DB_USER
+            value: admin
+          - name: DB_PASSWORD
+            value: udacity123
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
