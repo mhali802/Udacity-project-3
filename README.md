@@ -20,28 +20,6 @@ Code Build Image of Application
 1.) Minkube cluster creation
 <img width="867" height="122" alt="image" src="https://github.com/user-attachments/assets/6ccc13a9-1ecf-4449-afee-2d8b830913a9" />
 
-2.) run yaml
-
--- --- --- kubectl apply -f postgres-secrets.yml
-
--- --- --- kubectl apply -f postgres-config.yml
-
--- --- --- kubectl apply -f postgres-pv.yml
-
--- --- --- kubectl apply -f postgres-pvc.yml
-
--- --- --- kubectl apply -f postgres-deployment.yml
-
--- --- --- kubectl apply -f postgres-service.yml
-
--- --- --- kubectl apply -f app-secrets.yml
-
--- --- --- kubectl apply -f app-config.yml
-
--- --- --- kubectl apply -f app-deployment.yml
-
--- --- --- kubectl apply -f app-service.yml
-
 <img width="751" height="447" alt="image" src="https://github.com/user-attachments/assets/260b091f-c543-4fef-830b-df2a69ddb291" />
 
 
