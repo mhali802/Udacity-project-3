@@ -1,6 +1,6 @@
 # Udacity-project-3
 
-It was accessible on http://3.87.34.188:30080/. Now My EC2 instances were X2.large. Hence now EC2 is stopped.
+It was accessible on http://13.217.108.218:30081/. Now My EC2 instances were X2.large. Hence now EC2 is stopped.
 <img width="1000" height="177" alt="image" src="https://github.com/user-attachments/assets/a8c0cd3b-7cd6-47f6-90bb-bfe13ecfe98c" />
 
 
