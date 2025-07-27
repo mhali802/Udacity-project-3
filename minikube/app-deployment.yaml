@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: project-udacity-3
+  name: myapp-deployment
+  namespace: udacity
   labels:
-    app: project-udacity-3
+    app: myapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: project-udacity-3
+      app: myapp
   template:
     metadata:
       labels:
-        app: project-udacity-3
+        app: myapp
     spec:
       containers:
-        - name: project-udacity-3
+        - name: myapp-container
           image: 949829287785.dkr.ecr.us-east-1.amazonaws.com/udacity-project-3:latest
           ports:
             - containerPort: 80
@@ -75,4 +76,4 @@ spec:
               memory: "512Mi"
               cpu: "500m"
       imagePullSecrets:
-        - name: ecr-registry
+        - name: ecr-creds
